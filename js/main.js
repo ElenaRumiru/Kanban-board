@@ -487,6 +487,8 @@ class Board {
 }
 
 /* <=================================== Реализация Drag n' Drop ===================================> */
+
+
 let cardDrag_mouseDown = false;  // Нажал ли пользователь на элемент карточки.
 let cardDrag_mouseDownOn = null;  // Элемент карты, который удерживается.
 
@@ -605,10 +607,7 @@ const cardDrag_stopDragging = (e) => {
 };
 
 // Добавляем прослушиватели событий.
-// ПРИМЕЧАНИЕ03: Было бы лучшей идеей создать единую функцию mouseMove/mouseLeave/mouseUp
-// для обработки как прокрутки перетаскивания, так и перетаскивания элемента карточки.
-// Это сэкономит ненужную обработку + уменьшит количество прослушивателей событий.
-e_mainContainer.addEventListener('mousemove', cardDrag_update);
+e_mainContainer.addEventListener('mousemove', cardDrag_update, true);
 e_mainContainer.addEventListener('mouseleave', cardDrag_stopDragging, false);
 window.addEventListener('mouseup', cardDrag_stopDragging, false);
 
