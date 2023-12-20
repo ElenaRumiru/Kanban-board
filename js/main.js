@@ -303,15 +303,16 @@ class Card {
             // Добавляем выбор даты
             let _newDate = document.createElement('input');
             _newDate.type = "date";            
-            _newDate.classList.add('input-date');            
-            
+            _newDate.classList.add('input-date');   
                     
             // Находим нынешнее дату и время
-                // let d = new Date();
-                // let day = d.getDate(); if (day<10) day='0'+day;
-                // let month = d.getMonth() + 1; if (month<10) month='0'+month;
-                // let year = d.getFullYear(); 
-                // let today = year+"-"+month+"-"+day;
+                let d = new Date();
+                let day = d.getDate(); if (day<10) day='0'+day;
+                let month = d.getMonth() + 1; if (month<10) month='0'+month;
+                let year = d.getFullYear(); 
+                let today = year+"-"+month+"-"+day;
+
+                _newDate.value = today;
 
             // Доавляем метки
             let _newMarkContainer = document.createElement('span');
@@ -432,14 +433,6 @@ class Card {
             _newInput.focus();
         });
 
-        
-        let _newDate = document.querySelector
-        _newDate.addEventListener('input', () => {
-            let _deadline = _newDate.value;
-            let _item = new Item(_inputValue, null, getBoardFromId(this.parentBoardId).uniqueID(), this.id, _deadline);
-            this.addItem(_item);
-            _newDate.focus();
-        });
 
         let _newCard = document.createElement('div');
         _newCard.id = this.id;
