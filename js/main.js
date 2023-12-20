@@ -220,7 +220,6 @@ class Item {
         this.id = id;
         this.isDone = false;
         this.parentCardId = parentCardId;
-        this.deadline = deadline;
     }
 
     getParentCard() {
