@@ -177,7 +177,7 @@ body {
     display: block;
     left: 50%;
     color: var(--primary-color-light);
-    padding-left: 10px;
+    padding: 0 5px;
 }
 
 .fa:hover, #sidebar-button:hover {
