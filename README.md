@@ -1,4 +1,4 @@
-DEMO - github.com/ElenaRumiru/Kanban-board
+DEMO - https://elenarumiru.github.io/Kanban-board/
 
 ### Планировщик задач
 Выполнен Румянцевой Еленой в 2023 году
