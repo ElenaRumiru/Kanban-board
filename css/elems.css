@@ -513,8 +513,8 @@ input:checked + .slider:before {
     background-color: transparent;
     font-size: 10px;
     width: 85px;
-    position: relative;
-    /* margin-bottom: -38px; */
+    position: relative;    
+    cursor: pointer;
 }
 
 .input-date:hover {
@@ -524,6 +524,7 @@ input:checked + .slider:before {
 .mark {
     border-radius: 50%;
     padding: 0 10px;
+    cursor: pointer;
 }
 
 .blue {
