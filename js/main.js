@@ -124,7 +124,7 @@ function listBoards() {
 
 function renderBoard(board) {
     appData.currentBoard = appData.boards.indexOf(board);
-    document.title = 'Kards | ' + currentBoard().name;
+    document.title = 'Board | ' + currentBoard().name;
     e_title.innerText = currentBoard().name;
     //e_title.addEventListener('click'), разрешить редактирование названия доски объявлений
     // To-Do: set theme
@@ -220,6 +220,7 @@ class Item {
         this.id = id;
         this.isDone = false;
         this.parentCardId = parentCardId;
+        this.deadline = deadline;
     }
 
     getParentCard() {
@@ -286,11 +287,37 @@ class Card {
         for (let _item of this.items) {
             let _newItem = document.createElement('li');
             _newItem.id = _item.id;
+
+
+            // создаем блоки
+            let _firstString =  document.createElement('div');
+            _firstString.classList.add('first-string')
+            let _secondString =  document.createElement('div');
+            _secondString.classList.add('second-string')
+
             
             // Название задачи
             let _newItemTitle = document.createElement('p');
             _newItemTitle.innerText = _item.title;
             _newItemTitle.classList.add('item-title', 'text-fix', 'unselectable');
+            // Добавляем выбор даты
+            let _newDate = document.createElement('input');
+            _newDate.type = "date";            
+            _newDate.classList.add('input-date');            
+            
+                    
+            // Находим нынешнее дату и время
+                // let d = new Date();
+                // let day = d.getDate(); if (day<10) day='0'+day;
+                // let month = d.getMonth() + 1; if (month<10) month='0'+month;
+                // let year = d.getFullYear(); 
+                // let today = year+"-"+month+"-"+day;
+
+            // Доавляем метки
+            let _newMarkContainer = document.createElement('span');
+            _newMarkContainer.classList.add('mark-container');
+            let _newMark = document.createElement('span');
+            _newMark.classList.add('mark', 'blue');
             
             // Корпус для кнопок редактирования и удаления.
             let _newItemButtons = document.createElement('span');
@@ -327,13 +354,19 @@ class Card {
                 createConfirmDialog("Are you sure to delete this task?", () => this.removeItem(_item));
             });
 
-            // Добавьте обе кнопки в тег span.
+            // Добавляем обе кнопки в тег span.
             _newItemButtons.appendChild(_newItemEditButton);
             _newItemButtons.appendChild(_newItemDeleteButton);
 
-            // Добавьте заголовок, тег span к элементу и сам элемент в список.
-            _newItem.appendChild(_newItemTitle);
-            _newItem.appendChild(_newItemButtons);
+            // Добаляем заголовок, тег span к элементу и сам элемент в список.
+            _newItem.appendChild(_firstString);
+            _firstString.appendChild(_newItemTitle);
+            _firstString.appendChild(_newItemButtons); 
+            
+            _newItem.appendChild(_secondString);
+            _secondString.appendChild(_newDate);
+            _secondString.appendChild(_newMarkContainer);           
+            _newMarkContainer.appendChild(_newMark);   
             _newItemList.appendChild(_newItem);
         }
 
@@ -341,34 +374,12 @@ class Card {
     }
 
     generateElement() {
-
-        /* Структура элемента карточки */
-
-        //  <div class="parent-card">
-        //    <span>
-        //        <h2>
-        //            {this.name}
-        //        </h2>
-        //        <i class="fa fa-bars" aria-hidden="true"></i>
-        //    </span>
-        //    <ul>
-        //        <li><p>{this.items[0]}</p> <span></span>
-        //        {more_items...}
-        //    </ul>  
-        //  </div>
-
-        // This was somewhat of a bad idea...
-        // Editing the style of the cards or items are made quite difficult.
-        // I should've wrote all this as HTML and put it in the .innerHTML
-        // But this gives me more flexibility, so I had to make a choice.
-
         let _newCardHeader = document.createElement('span');
         let _newCardHeaderTitle = document.createElement('h2');
         _newCardHeaderTitle.id = this.id + '-h2';
         _newCardHeaderTitle.innerText = this.name;
         _newCardHeaderTitle.classList.add('text-fix', 'card-title');
 
-        //Лучшая, более гибкая альтернатива contentEditable.
         // Мы заменяем текстовый элемент элементом ввода.
         _newCardHeaderTitle.addEventListener('click', (e) => {
             let _input = document.createElement('input');
@@ -419,6 +430,15 @@ class Card {
             this.addItem(_item);
             _newInput.value = '';
             _newInput.focus();
+        });
+
+        
+        let _newDate = document.querySelector
+        _newDate.addEventListener('input', () => {
+            let _deadline = _newDate.value;
+            let _item = new Item(_inputValue, null, getBoardFromId(this.parentBoardId).uniqueID(), this.id, _deadline);
+            this.addItem(_item);
+            _newDate.focus();
         });
 
         let _newCard = document.createElement('div');
@@ -673,7 +693,7 @@ const cardContextMenu_deleteCard = () => {
 
         // Удаляем карточку из списка карточек в зависимости от ее индекса.
         currentCards().splice(currentCards().indexOf(_currentCardObject), 1);
-        cardContextMenu_hide({target:{offsetParent:'n/a'}}); // this is really stupid but it works, LoL
+        cardContextMenu_hide({target:{offsetParent:'n/a'}}); 
 
         renderCard(_currentCardObject.id);
     });
